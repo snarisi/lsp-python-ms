@@ -3,8 +3,8 @@
 ;; Author: Charl Botha
 ;; Maintainer: Andrew Christianson
 ;; Version: 0.1.0
-;; Package-Requires: (cl-lib lsp-mode projectile python)
 ;; Homepage: https://git.sr.ht/~kristjansson/lsp-python-ms
+;; Package-Requires: (cl-lib lsp-mode python json)
 ;; Keywords: lsp python
 
 
@@ -31,8 +31,8 @@
 ;;; Code:
 (require 'cl-lib)
 (require 'lsp-mode)
-(require 'projectile)
 (require 'python)
+(require 'projectile nil 'noerror)
 
 ;; forward declare variable
 (defvar lsp-render-markdown-markup-content)
@@ -98,8 +98,8 @@ Optionally add the WORKSPACE to the python search list."
 (defun lsp-python-ms--workspace-root ()
   "Get the root using ffip or projectile, or just return `default-directory'."
   (cond
-   ((fboundp 'ffip-get-project-root-directory) (ffip-get-project-root-directory))
    ((fboundp 'projectile-project-root)) (projectile-project-root)
+   ((fboundp 'ffip-get-project-root-directory) (ffip-get-project-root-directory))
    (t default-directory)))
 
 (defun lsp-python-ms--find-dotnet ()
