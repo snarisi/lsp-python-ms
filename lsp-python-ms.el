@@ -44,7 +44,7 @@
 This is the directory containing Microsoft.Python.LanguageServer.dll.")
 
 (defvar lsp-python-ms-cache-dir
-  (directory-file-name (locate-user-emacs-file ".lsp/cache"))
+  (directory-file-name (locate-user-emacs-file ".lsp-python/"))
   "Path to directory where the server will write cache files
 
 If this is nil, the language server will write cache files in a directory
@@ -108,7 +108,7 @@ Optionally add the WORKSPACE to the python search list."
         (:properties (
                       :InterpreterPath ,(executable-find python-shell-interpreter)
                       ;; this database dir will be created if required
-                      :DatabasePath ,(expand-file-name (directory-file-path lsp-python-ms-cache-dir))
+                      :DatabasePath ,(expand-file-name (directory-file-name lsp-python-ms-cache-dir))
                       :Version ,pyver))
         ;; preferredFormat "markdown" or "plaintext"
         ;; experiment to find what works best -- over here mostly plaintext
