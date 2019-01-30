@@ -42,7 +42,13 @@
 
 This is the directory containing Microsoft.Python.LanguageServer.dll.")
 
-(defvar lsp-python-ms-dotnet nil
+(defvar lsp-python-ms-cache-dir
+  (directory-file-name (locate-user-emacs-file ".lsp/cache"))
+  "Path to directory where the server will write cache files
+
+If this is nil, the language server will write cache files in a directory
+sibling to the root of every project you visit")
+
   "Full path to dotnet executable.
 
 You only need to set this if dotnet is not on your path.")
@@ -81,15 +87,17 @@ paths and then the entire list will be json-encoded."
 Optionally add the WORKSPACE to the python search list."
   (let ((workspace-root (if workspace (lsp--workspace-root workspace) (pwd))))
     (cl-destructuring-bind (pyver pysyspath)
-      (lsp-python-ms--get-python-ver-and-syspath workspace-root)
+        (lsp-python-ms--get-python-ver-and-syspath workspace-root)
       `(:interpreter
-        (:properties (:InterpreterPath ,(executable-find python-shell-interpreter)
+        (:properties (
+                      :InterpreterPath ,(executable-find python-shell-interpreter)
                       ;; this database dir will be created if required
-                      :DatabasePath ,(expand-file-name (concat lsp-python-ms-dir "db/"))
+                      :DatabasePath ,(expand-file-name (directory-file-path lsp-python-ms-cache-dir))
                       :Version ,pyver))
         ;; preferredFormat "markdown" or "plaintext"
         ;; experiment to find what works best -- over here mostly plaintext
-        :displayOptions (:preferredFormat "plaintext"
+        :displayOptions (
+                         :preferredFormat "plaintext"
                          :trimDocumentationLines :json-false
                          :maxDocumentationLineLength 0
                          :trimDocumentationText :json-false
