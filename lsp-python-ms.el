@@ -140,6 +140,10 @@ WORKSPACE is just used for logging and _PARAMS is unused."
 (advice-add 'lsp-ui-sideline--format-info
             :filter-return #'lsp-python-ms--filter-nbsp)
 
+;; lsp--render-string gets called when you call lsp-describe-thing-at-point
+(advice-add 'lsp--render-string
+	    :filter-return #'lsp-python-ms--filter-nbsp)
+
 (defun lsp-python-ms--command-string ()
   "Return the command to start the server."
   (if lsp-python-ms-executable
