@@ -241,7 +241,7 @@ directory"
                          :maxDocumentationTextLength 0)
         :searchPaths ,(if lsp-python-ms-extra-paths
                           (vconcat lsp-python-ms-extra-paths nil)
-                        [])
+                        (vconcat workspace-root nil))
         :analysisUpdates t
         :asyncStartup t
         :typeStubSearchPaths ,(vector (concat lsp-python-ms-dir "Typeshed"))))))
